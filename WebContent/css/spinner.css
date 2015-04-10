@@ -7,6 +7,13 @@ body, html {
 	 display:none;
 }
 
+
+
+.highlight {
+    background-color:#F3F315;
+    color:#555;
+}
+
 .containerLoader {
   display:none;
   height: 100%;

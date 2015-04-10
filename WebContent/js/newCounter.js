@@ -1,26 +1,3 @@
-var directoryName = null;
-var queryVal = null;
-
-window.onload = function() {
-	$(document).ready(function() {
-		$("body").keypress(function(event) {
-			if (event.which == 13) {
-				getResult();
-			}
-		});
-		$('img').click(function() {
-			$(".noDirectory").hide();
-			$(".noQuery").hide();
-			$('#tableData').hide();
-			$("input").show();
-			$("button").show();
-			$('input').val('');
-			window.history.replaceState({}, "", '/WordCountBySpark');
-		});
-
-	})
-};
-
 function getContent(responseData) {
 	if (responseData != "null") {
 		responseData = responseData.substring(1, responseData.length - 1);
@@ -28,7 +5,7 @@ function getContent(responseData) {
 			var name = responseData.split(",");
 			var fileName = "", count = "";
 			var table = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-
+			//table.find("tr").remove();
 			for (var i = 0; i < name.length; i++) {
 				var line = name[i];
 				var row = table.insertRow(table.rows.length);
@@ -44,26 +21,17 @@ function getContent(responseData) {
 					line = line.substring(0, 99) + "...";
 				}
 
-				var query = new RegExp("(\\b" + queryVal + "\\b)", "gim");
-				var enew = line.replace(/(<span class='highlight'>|<\/span>)/igm, "");
-				line = enew.replace(query, "<span class='highlight'>$1</span>");
-
 				cell1.innerHTML = fileName;
 				cell2.innerHTML = line;
 				cell3.innerHTML = count;
 			}
-
-			$('#myTable').dataTable();
 		}
 	}
-	$('input').val('');
 }
 
 function getResult() {
-	$(".noDirectory").hide();
-	$(".noQuery").hide();
-	directoryName = $('*[name="directory"]').val();
-	queryVal = $('*[name="query"]').val();
+	var directoryName = $('*[name="directory"]').val();
+	var queryVal = $('*[name="query"]').val();
 
 	if (directoryName == "") {
 		$(".noDirectory").show();
@@ -87,9 +55,7 @@ function getResult() {
 				requestHandler(xmlhttp);
 				$('#loader').hide();
 				$('#tableData').show();
-				$("input").hide();
-				$("button").hide();
-				window.history.replaceState({}, "", 'counts');
+				window.history.replaceState({},"",'counts');
 			}
 		};
 		xmlhttp.send();
