@@ -72,7 +72,7 @@ function hideLoading()
 						<input type="text" value="<%= directory!=null? directory:"" %>" placeholder="<%= directory!=null? directory:"Enter directory path" %>" class="form-control" name="directory">
 						<input type="text" value="<%= query!=null? query:"" %>" placeholder="<%= query!=null? query:"Enter query" %>" class="form-control" name="query">
 					</div>
-					<button type="submit" class="btn btn-success" action="results.jsp">Search</button>
+					<button type="submit" class="btn btn-success">Search</button>
 				</form>
 			</div>
 			<!--/.navbar-collapse -->
@@ -98,6 +98,8 @@ hideLoading();
 					<th>Matched String</th>
 					<th>Count</th>
 				</tr>
+				</thead>
+			<tbody>
 				<%
 					for(int i=0;i<name.size();i++)
 					{
@@ -121,8 +123,7 @@ hideLoading();
 					}
 				%>
 
-			</thead>
-			<tbody>
+			
 					
 			</tbody>
 		</table>

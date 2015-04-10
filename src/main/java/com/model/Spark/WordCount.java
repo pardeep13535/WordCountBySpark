@@ -1,5 +1,9 @@
 package com.model.Spark;
 
+/**
+ * @author Pardeep Kumar
+ * @FBID www.facebook.com/pradeep13535
+ */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +34,12 @@ public class WordCount {
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
 				resultString.delete(0, resultString.length());
-				JavaRDD<String> lines = getContentRDD(child.getAbsolutePath(),
-						sc);
+				JavaRDD<String> lines = getContentRDD(child.getAbsolutePath(), sc);
 				if (lines != null) {
 					JavaRDD<Integer> putEl = lines.map(new PutIntoElastic());
 					int count = putEl.reduce(new AddWordCount());
 					if (count >= 1) {
-						System.out.println("FINAL count = " + count);
+						//System.out.println("FINAL count = " + count);
 						resultString.append("|:|" + child.getName());
 						resultString.append("||:" + count);
 						result.add(resultString.toString());
@@ -44,8 +47,6 @@ public class WordCount {
 				}
 				resultString.delete(0, resultString.length());
 			}
-		} else {
-			System.out.println("Directory not found");
 		}
 		return result;
 	}
@@ -54,7 +55,7 @@ public class WordCount {
 		String extension = path.substring(path.length() - 4);
 		JavaRDD<String> content = null;
 
-		if (extension.contains("doc") && !extension.contains("docx")) {
+		/*if (extension.contains("doc") && !extension.contains("docx")) {
 			// its a doc file
 			ReadDocFile a = new ReadDocFile();
 			content = a.readFile(path, sc);
@@ -65,7 +66,7 @@ public class WordCount {
 				content = a.readFile(path, sc);
 			} catch (Exception e) {
 			}
-		} else if (extension.contains("txt")) {
+		} else */if (extension.contains("txt")) {
 			content = sc.textFile(path);
 		} else if (extension.contains("pdf")) {
 			PDFFileReader a = new PDFFileReader();
@@ -75,7 +76,7 @@ public class WordCount {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		} 
 		return content;
 	}
 
@@ -94,7 +95,7 @@ class PutIntoElastic implements Function<String, Integer> {
 	public Integer call(String s) {
 		if (s.contains(WordCount.query)) {
 			WordCount.resultString.append("<line>" + s + "</line>");
-			System.out.println("found in s=" + s);
+			//System.out.println("found in s=" + s);
 			return WordCount.count(s, WordCount.query);
 		} else
 			return 0;

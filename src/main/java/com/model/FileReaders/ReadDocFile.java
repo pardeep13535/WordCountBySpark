@@ -1,5 +1,9 @@
 package com.model.FileReaders;
 
+/**
+ * @author Pardeep Kumar
+ * @FBID www.facebook.com/pradeep13535
+ */
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -9,7 +13,6 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-
 
 public class ReadDocFile {
 	String fileName;
@@ -21,6 +24,7 @@ public class ReadDocFile {
 	public void setName(String name) {
 		this.fileName = name;
 	}
+
 	public static void main(String[] args) {
 
 		File file = null;
@@ -40,7 +44,8 @@ public class ReadDocFile {
 			System.out.print("error in reading doc file");
 		}
 	}
-	public JavaRDD<String> readFile(String path,JavaSparkContext sc) {
+
+	public JavaRDD<String> readFile(String path, JavaSparkContext sc) {
 		File file = null;
 		WordExtractor extractor = null;
 		List<String> content = new ArrayList();
@@ -52,8 +57,7 @@ public class ReadDocFile {
 			extractor = new WordExtractor(document);
 			String[] fileData = extractor.getParagraphText();
 			for (int i = 0; i < fileData.length; i++) {
-				if (fileData[i] != null)
-				{
+				if (fileData[i] != null) {
 					content.add(fileData[i]);
 				}
 			}
